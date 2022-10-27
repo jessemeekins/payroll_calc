@@ -1,15 +1,6 @@
-from re import L
-from turtle import onclick
-from numpy import save
-import openpyxl
-from pyrsistent import inc
 import streamlit as st
 import pandas as pd
 import datetime as dt
-from openpyxl import Workbook, load_workbook
-from yfinance import download
-
-
 
 today = dt.date.today()
 ### Defining the Databse of Ranks and Pay
