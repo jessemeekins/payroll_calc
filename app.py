@@ -146,13 +146,13 @@ if run:
 st.write(f"Total Rows: {st.session_state.key.shape[0]}")
 '---'
 
-'''file_name = st.text_input('file Name (optional)') 
+#file_name = st.text_input('file Name (optional)') 
 
-def save_download_sessiom():
-    df = st.session_state.key
-    if file_name == '':
-        df.to_excel('session.xlsx')
-    else:
-        df.to_excel(f'{file_name}.xlsx')
-
-st.button('Save Session', on_click=save_download_sessiom())'''
+#def save_download_sessiom():
+#    df = st.session_state.key
+#    if file_name == '':
+#        df.to_excel('session.xlsx')
+#    else:
+#        df.to_excel(f'{file_name}.xlsx')
+#
+#st.button('Save Session', on_click=save_download_sessiom())'''
