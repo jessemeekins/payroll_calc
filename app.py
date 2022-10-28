@@ -109,30 +109,33 @@ col3.metric(f' Total Pay', value=f'${total_pay}')
 #name = st.text_input('Name this file.')
 
 data = {
-        #'name': name, 
-        'rank': selected_rank, 
-        'selected_pay_rate': hourly_pay, 
-        'overtime_type': hourly_rate, 
-        'hours_worked': hours_works, 
-        'longevity': longevity, 
-        'job_incentives': job, 
-        'college_incentives': coll,
-        'all_incentives': incent,
-        'calc_pay': calc_pay, 
-        'calc_total_pay': total_pay
+        #'Name': name, 
+        'Rank': selected_rank, 
+        'Hourly Pay': hourly_pay, 
+        'Pay Type': hourly_rate, 
+        'Hours Worked': hours_works, 
+        'Longevity Incent': longevity, 
+        'Job Incent': job, 
+        'College Incent': coll,
+        'All Incentives': incent,
+        'Pay w/o Incent': calc_pay, 
+        'Total Pay': total_pay
         }
 
 last_df = pd.DataFrame(data, columns=[
-        'name',
-        'rank', 
-        'selected_pay_rate', 
-        'overtime_type', 
-        'hours_worked', 
-        'longevity', 
-        'job_incentives', 
-        'college_incentives',
-        'all_incentives',
-        'calc_pay', 
-        'calc_total_pay'
+        #'Name',
+        'Rank', 
+        'Hourly Pay', 
+        'Pay Type', 
+        'Hours Worked', 
+        'Longevity Incent', 
+        'Job Incent', 
+        'College Incent',
+        'All Incentives',
+        'Pay w/o Incent', 
+        'Total Pay'
 ], index=[0])
 
+#name = st.text_input('Name or Id (optional)')
+
+last_df
