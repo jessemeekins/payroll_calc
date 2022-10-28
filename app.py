@@ -111,8 +111,10 @@ with st.form('form'):
 
     total_pay = round(incent + calc_pay, 2)
 
+    name = st.text_input('Add ID or Name (optional)')
+    '---'
     run = st.form_submit_button('Calculate/Add to Session List')
-
+    '---'
     col1, col2, col3 = st.columns(3)
 
     col1.metric(' Selected Rank', value=selected_rank)
@@ -121,11 +123,6 @@ with st.form('form'):
     col1.metric('Total Incentive Pay', value=f'${incent}')
     col2.metric('Pay w/o Incentives', value=f'${calc_pay}')
     col3.metric(f' Total Pay', value=f'${total_pay}')
-
-            
-    name = st.text_input('Add ID or Name (optional)')
-
-
 
     new_df = pd.DataFrame({
             'Name': name, 
@@ -146,4 +143,15 @@ if run:
     st.dataframe(st.session_state.key)
 
 st.write(f"Total Rows: {st.session_state.key.shape[0]}")
-st.button('Save Session')
+'---'
+
+file_name = st.text_input('file Name (optional)', on_click='') 
+
+def save_download_sessiom():
+    df = st.session_state.key
+    if file_name == '':
+        df.to_excel('session.xlsx')
+    else:
+        df.to_excel(f'{file_name}.xlsx')
+
+st.button('Save Session', on_click=save_download_sessiom())
