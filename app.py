@@ -145,7 +145,7 @@ if run:
 st.write(f"Total Rows: {st.session_state.key.shape[0]}")
 '---'
 
-file_name = st.text_input('file Name (optional)', on_click='') 
+file_name = st.text_input('file Name (optional)') 
 
 def save_download_sessiom():
     df = st.session_state.key
