@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import datetime as dt
 
+
 today = dt.date.today()
 ### Defining the Databse of Ranks and Pay
 data = pd.DataFrame({
@@ -33,11 +34,26 @@ selected_pay_rate = st.selectbox('Hourly Pay Rate', ['24 Hour Pay', '8 Hour Pay'
 # Defining the pay selector and option "Time and A Half" or "Straight Time"
 overtime_type = st.selectbox('Type of Pay', ['Time and a Half', 'Straight Time'])
 # Text input box for mannually entering floats
-longevity = st.number_input('Longevity Incentive.')
+longevity = st.number_input(
+    'Longevity Incentive.', 
+    min_value=0.0,
+    max_value=1.9999,
+    step=1e-4,
+    format="%.4f")
 # Text input box for mannually entering floats
-job_incentive = st.number_input('Insert Job Incentive Pay', max_value=1.9999)
+job_incentive = st.number_input(
+    'Insert Job Incentive Pay', 
+    min_value=0.0,
+    max_value=1.9999,
+    step=1e-4,
+    format="%.4f")
 # Text input box for mannually entering floats
-college_inc = st.number_input('Insert College Incentive')
+college_inc = st.number_input(
+    'Insert College Incentive', 
+    min_value=0.0,
+    max_value=1.9999,
+    step=1e-4,
+    format="%.4f")
 # Text inout how many hours they work
 hours_works = st.number_input('Hours Worked (Decimal Value)')
 
