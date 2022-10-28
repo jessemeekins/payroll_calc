@@ -55,7 +55,8 @@ college_inc = st.number_input(
     step=1e-4,
     format="%.4f")
 # Text inout how many hours they work
-hours_works = st.number_input('Hours Worked (Decimal Value)')
+hours_works = st.number_input('Hours Worked (Decimal Value)',
+    step=25e-2)
 
 
 
