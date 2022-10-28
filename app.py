@@ -2,6 +2,20 @@ import streamlit as st
 import pandas as pd
 import datetime as dt
 
+if "key" not in st.session_state:
+    st.session_state.key = pd.DataFrame(columns=[
+            'Name',
+            'Rank', 
+            'Hourly Pay', 
+            'Pay Type', 
+            'Hours Worked', 
+            'Longevity Incent', 
+            'Job Incent', 
+            'College Incent',
+            'All Incentives',
+            'Pay w/o Incent', 
+            'Total Pay'
+    ], index=[0])
 
 today = dt.date.today()
 ### Defining the Databse of Ranks and Pay
@@ -25,117 +39,111 @@ with st.container():
     with COL2:
         st.image('assets/mfd_logo.jpeg', width=250)
         pass
-'---'
 
-# Defining from the db the rank
-selected_rank = st.selectbox('Select Rank', data['Rank'])
-# Defining the pay selector and option "24 hours Rate" or "8 hours rate"
-selected_pay_rate = st.selectbox('Hourly Pay Rate', ['24 Hour Pay', '8 Hour Pay'])
-# Defining the pay selector and option "Time and A Half" or "Straight Time"
-overtime_type = st.selectbox('Type of Pay', ['Time and a Half', 'Straight Time'])
-# Text input box for mannually entering floats
-longevity = st.number_input(
-    'Longevity Incentive.', 
-    min_value=0.0,
-    max_value=1.9999,
-    step=1e-4,
-    format="%.4f")
-# Text input box for mannually entering floats
-job_incentive = st.number_input(
-    'Insert Job Incentive Pay', 
-    min_value=0.0,
-    max_value=1.9999,
-    step=1e-4,
-    format="%.4f")
-# Text input box for mannually entering floats
-college_inc = st.number_input(
-    'Insert College Incentive', 
-    min_value=0.0,
-    max_value=1.9999,
-    step=1e-4,
-    format="%.4f")
-# Text inout how many hours they work
-hours_works = st.number_input('Hours Worked (Decimal Value)',
-    step=25e-2)
+with st.form('form'):
 
-
-
-hourly_pay = data[data['Rank'] == selected_rank]
-hourly_pay = hourly_pay[selected_pay_rate].values
-hourly_pay = hourly_pay[0]
-
-def determine_time_and_half(overtime_type=overtime_type):
-    if overtime_type == 'Time and a Half': 
-        overtime_rate = 1.5
-    else:
-        overtime_rate = 1.0
-    return overtime_rate
-
-hourly_rate = determine_time_and_half()
-
-def longevity_inc():
-    return round(longevity*hours_works*hourly_rate, 2)
-
-def job_inc():
-    return round(job_incentive*hours_works*hourly_rate, 2)
-
-def coll_inc():
-    return round(college_inc*hours_works*hourly_rate, 2)
-
-longevity = longevity_inc()
-job = job_inc()
-coll = coll_inc()
-
-incent = round(longevity+job+coll, 2)
-calc_pay = round(hours_works*hourly_pay*hourly_rate, 4)
-
-total_pay = round(incent + calc_pay, 2)
+    # Defining from the db the rank
+    selected_rank = st.selectbox('Select Rank', data['Rank'])
+    # Defining the pay selector and option "24 hours Rate" or "8 hours rate"
+    selected_pay_rate = st.selectbox('Hourly Pay Rate', ['24 Hour Pay', '8 Hour Pay'])
+    # Defining the pay selector and option "Time and A Half" or "Straight Time"
+    overtime_type = st.selectbox('Type of Pay', ['Time and a Half', 'Straight Time'])
+    # Text input box for mannually entering floats
+    longevity = st.number_input(
+        'Longevity Incentive.', 
+        min_value=0.0,
+        max_value=1.9999,
+        step=1e-4,
+        format="%.4f")
+    # Text input box for mannually entering floats
+    job_incentive = st.number_input(
+        'Insert Job Incentive Pay', 
+        min_value=0.0,
+        max_value=1.9999,
+        step=1e-4,
+        format="%.4f")
+    # Text input box for mannually entering floats
+    college_inc = st.number_input(
+        'Insert College Incentive', 
+        min_value=0.0,
+        max_value=1.9999,
+        step=1e-4,
+        format="%.4f")
+    # Text inout how many hours they work
+    hours_works = st.number_input('Hours Worked (Decimal Value)',
+        step=25e-2,
+    format="%.2f")
 
 
-col1, col2, col3 = st.columns(3)
 
-col1.metric(' Selected Rank', value=selected_rank)
-col2.metric('Base Pay', value=f'${hourly_pay}')
-col3.metric('Hours', value=hours_works)
-col1.metric('Total Incentive Pay', value=f'${incent}')
-col2.metric('Pay w/o Incentives', value=f'${calc_pay}')
-col3.metric(f' Total Pay', value=f'${total_pay}')
+    hourly_pay = data[data['Rank'] == selected_rank]
+    hourly_pay = hourly_pay[selected_pay_rate].values
+    hourly_pay = hourly_pay[0]
+
+    def determine_time_and_half(overtime_type=overtime_type):
+        if overtime_type == 'Time and a Half': 
+            overtime_rate = 1.5
+        else:
+            overtime_rate = 1.0
+        return overtime_rate
+
+    hourly_rate = determine_time_and_half()
+
+    def longevity_inc():
+        return round(longevity*hours_works*hourly_rate, 2)
+
+    def job_inc():
+        return round(job_incentive*hours_works*hourly_rate, 2)
+
+    def coll_inc():
+        return round(college_inc*hours_works*hourly_rate, 2)
+
 
         
 
 
+    longevity = longevity_inc()
+    job = job_inc()
+    coll = coll_inc()
 
-#st.write('Would you like to save this?')
-#name = st.text_input('Name this file.')
+    incent = round(longevity+job+coll, 2)
+    calc_pay = round(hours_works*hourly_pay*hourly_rate, 4)
 
-data = {
-        #'Name': name, 
-        'Rank': selected_rank, 
-        'Hourly Pay': hourly_pay, 
-        'Pay Type': hourly_rate, 
-        'Hours Worked': hours_works, 
-        'Longevity Incent': longevity, 
-        'Job Incent': job, 
-        'College Incent': coll,
-        'All Incentives': incent,
-        'Pay w/o Incent': calc_pay, 
-        'Total Pay': total_pay
-        }
+    total_pay = round(incent + calc_pay, 2)
 
-last_df = pd.DataFrame(data, columns=[
-        #'Name',
-        'Rank', 
-        'Hourly Pay', 
-        'Pay Type', 
-        'Hours Worked', 
-        'Longevity Incent', 
-        'Job Incent', 
-        'College Incent',
-        'All Incentives',
-        'Pay w/o Incent', 
-        'Total Pay'
-], index=[0])
+    run = st.form_submit_button('Calculate/Add to Session List')
 
-#name = st.text_input('Name or Id (optional)')
+    col1, col2, col3 = st.columns(3)
 
-last_df
+    col1.metric(' Selected Rank', value=selected_rank)
+    col2.metric('Base Pay', value=f'${hourly_pay}')
+    col3.metric('Hours', value=hours_works)
+    col1.metric('Total Incentive Pay', value=f'${incent}')
+    col2.metric('Pay w/o Incentives', value=f'${calc_pay}')
+    col3.metric(f' Total Pay', value=f'${total_pay}')
+
+            
+    name = st.text_input('Add ID or Name (optional)')
+
+
+
+    new_df = pd.DataFrame({
+            'Name': name, 
+            'Rank': selected_rank, 
+            'Hourly Pay': hourly_pay, 
+            'Pay Type': hourly_rate, 
+            'Hours Worked': hours_works, 
+            'Longevity Incent': longevity, 
+            'Job Incent': job, 
+            'College Incent': coll,
+            'All Incentives': incent,
+            'Pay w/o Incent': calc_pay, 
+            'Total Pay': total_pay
+            }, index=[0])
+
+if run:
+    st.session_state.key = pd.concat([st.session_state.key, new_df], axis=0)
+    st.dataframe(st.session_state.key)
+
+st.write(f"Total Rows: {st.session_state.key.shape[0]}")
+st.button('Save Session')
