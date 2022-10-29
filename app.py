@@ -3,20 +3,6 @@ import pandas as pd
 import datetime as dt
 
 
-if "key" not in st.session_state:
-    st.session_state.key = pd.DataFrame(columns=[
-            'Name',
-            'Rank', 
-            'Hourly Pay', 
-            'Pay Type', 
-            'Hours Worked', 
-            'Longevity Incent', 
-            'Job Incent', 
-            'College Incent',
-            'All Incentives',
-            'Pay w/o Incent', 
-            'Total Pay'
-    ], index=[0])
 
 today = dt.date.today()
 ### Defining the Databse of Ranks and Pay
@@ -41,7 +27,7 @@ with st.container():
         st.image('assets/mfd_logo.jpeg', width=250)
         pass
 
-with st.form('form'):
+
 
     # Defining from the db the rank
     selected_rank = st.selectbox('Select Rank', data['Rank'])
@@ -114,8 +100,7 @@ with st.form('form'):
 
     name = st.text_input('Add ID or Name (optional)')
     '---'
-    run = st.form_submit_button('Calculate/Add to Session List')
-    '---'
+   
     col1, col2, col3 = st.columns(3)
 
     col1.metric(' Selected Rank', value=selected_rank)
@@ -125,25 +110,44 @@ with st.form('form'):
     col2.metric('Pay w/o Incentives', value=f'${calc_pay}')
     col3.metric(f' Total Pay', value=f'${total_pay}')
 
-    new_df = pd.DataFrame({
-            'Name': name, 
-            'Rank': selected_rank, 
-            'Hourly Pay': hourly_pay, 
-            'Pay Type': hourly_rate, 
-            'Hours Worked': hours_works, 
-            'Longevity Incent': longevity, 
-            'Job Incent': job, 
-            'College Incent': coll,
-            'All Incentives': incent,
-            'Pay w/o Incent': calc_pay, 
-            'Total Pay': total_pay
-            }, index=[0])
+if "key" not in st.session_state:
+    st.session_state.key = pd.DataFrame(columns=[
+            'Name',
+            'Rank', 
+            'Hourly Pay', 
+            'Pay Type', 
+            'Hours Worked', 
+            'Longevity Incent', 
+            'Job Incent', 
+            'College Incent',
+            'All Incentives',
+            'Pay w/o Incent', 
+            'Total Pay'
+    ], index=[0])
+
+new_df = pd.DataFrame({
+        'Name': name, 
+        'Rank': selected_rank, 
+        'Hourly Pay': hourly_pay, 
+        'Pay Type': hourly_rate, 
+        'Hours Worked': hours_works, 
+        'Longevity Incent': longevity, 
+        'Job Incent': job, 
+        'College Incent': coll,
+        'All Incentives': incent,
+        'Pay w/o Incent': calc_pay, 
+        'Total Pay': total_pay
+        }, index=[0])
+
+run = st.button('Calculate/Add to Session List')
+'---'
 
 if run:
     st.session_state.key = pd.concat([st.session_state.key, new_df], axis=0)
     st.dataframe(st.session_state.key)
-
+st.write('*Table disapears when altering the next set of paramaters')
 st.write(f"Total Rows: {st.session_state.key.shape[0]}")
+
 '---'
 
 #file_name = st.text_input('file Name (optional)') 
