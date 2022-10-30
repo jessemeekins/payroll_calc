@@ -1,4 +1,5 @@
 from operator import index
+from pyparsing import col
 import streamlit as st
 import pandas as pd
 import datetime as dt
@@ -132,9 +133,14 @@ if "key" not in st.session_state:
         ], index=[0])
 
 
+if 'payout' not in st.session_state:
+    st.session_state.payout = 0.00
+
+def update_payout():
+    st.session_state.payout += total_pay
 
 # "run" varoable create to trigger sessio.state.key
-run = st.button('Calculate/Add to Session List')
+run = st.button('Calculate/Add to Session List', on_click=update_payout)
 
 '---'
 # if above button is clicked, then run is True and condidtional statement executes
@@ -156,12 +162,17 @@ if run:
             }, index=[0])
     # concartinating the new information to a new dataframe, passing it to the session_state.key
     st.session_state.key = pd.concat([st.session_state.key, new_df], ignore_index=True)
-    # Calling on new session_state.key variable to display on the screen 
-    st.dataframe(st.session_state.key)
-# Informing of some functionality glitch that makes df disapear when altering new data fields
-st.write('*Table disapears when altering the next set of paramaters, but keeps data.')
-# Counter to calm the nerves of rthe user to make sure that they dont think they lost the session data
-st.write(f"Total Rows: {st.session_state.key.shape[0]}")
+    
+# Calling on new session_state.key variable to display on the screen 
+st.session_state.key
+
+
+with st.container():
+    col1, col2, col3 = st.columns(3)
+    # Counter to calm the nerves of rthe user to make sure that they dont think they lost the session data
+    col1.write(f"Total Rows: {st.session_state.key.shape[0]}")
+
+    col3.metric(f'Payout', value=f'${st.session_state.payout}')
 
 '---'
 
@@ -172,6 +183,8 @@ st.write(f"Total Rows: {st.session_state.key.shape[0]}")
 df = st.session_state.key 
 # Convert df object with pandas to_csv func, and update df object
 df = df.to_csv()
+
+
 
 # Streamlit download button 
 
