@@ -172,7 +172,7 @@ with st.container():
     # Counter to calm the nerves of rthe user to make sure that they dont think they lost the session data
     col1.write(f"Total Rows: {st.session_state.key.shape[0]}")
 
-    col3.metric(f'Payout', value=f'${st.session_state.payout}')
+    col3.metric(f'Payout', value=f'${round(st.session_state.payout, 2)}')
 
 '---'
 
