@@ -1,3 +1,4 @@
+from email import header
 from operator import index
 from pyparsing import col
 import streamlit as st
@@ -159,7 +160,7 @@ if run:
             'All Incentives': incent,
             'Pay w/o Incent': calc_pay, 
             'Total Pay': total_pay
-            }, index=[0])
+            }, index=[header])
     # concartinating the new information to a new dataframe, passing it to the session_state.key
     st.session_state.key = pd.concat([st.session_state.key, new_df], ignore_index=True)
     
@@ -189,11 +190,11 @@ df = df.to_csv()
 # Streamlit download button 
 
 with st.container():
-    col1, col2 = st.columns(2)
+    col1, col2 , col3 = st.columns(3)
     col1.download_button(
         label='Save Session', 
         data=df, 
         file_name='session.csv',
         mime='text/csv', 
         )
-    col2.button('Clear Session', on_click=st.session_state.clear)
+    col3.button('Clear Session', on_click=st.session_state.clear)
