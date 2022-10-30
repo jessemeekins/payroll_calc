@@ -155,7 +155,7 @@ if run:
             'Total Pay': total_pay
             }, index=[0])
     # concartinating the new information to a new dataframe, passing it to the session_state.key
-    st.session_state.key = pd.concat([st.session_state.key, new_df], axis=0)
+    st.session_state.key = pd.concat([st.session_state.key, new_df], ignore_index=True)
     # Calling on new session_state.key variable to display on the screen 
     st.dataframe(st.session_state.key)
 # Informing of some functionality glitch that makes df disapear when altering new data fields
@@ -166,14 +166,21 @@ st.write(f"Total Rows: {st.session_state.key.shape[0]}")
 '---'
 
 
-# Download data to excel file, still working out compatability issues on streamlit
+### Download data to csv file ###
 
+# Conver current session state to df object
 df = st.session_state.key 
+# Convert df object with pandas to_csv func, and update df object
 df = df.to_csv()
 
-st.download_button(
-    label='Save Session', 
-    data=df, 
-    file_name='session.csv',
-    mime='text/csv', 
-    )
+# Streamlit download button 
+
+with st.container():
+    col1, col2 = st.columns(2)
+    col1.download_button(
+        label='Save Session', 
+        data=df, 
+        file_name='session.csv',
+        mime='text/csv', 
+        )
+    col2.button('Clear Session', on_click=st.session_state.clear)
