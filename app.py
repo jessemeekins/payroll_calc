@@ -1,3 +1,4 @@
+from operator import index
 import streamlit as st
 import pandas as pd
 import datetime as dt
@@ -166,13 +167,13 @@ st.write(f"Total Rows: {st.session_state.key.shape[0]}")
 
 
 # Download data to excel file, still working out compatability issues on streamlit
-file_name = st.text_input('file Name (optional)') 
 
-def save_download_sessiom():
-        df = st.session_state.key
-        if file_name == '':
-           df.to_excel('session.xlsx')
-        else:
-           df.to_excel(f'{file_name}.xlsx')
+df = st.session_state.key 
+df = df.to_csv()
 
-st.button('Save Session', on_click=save_download_sessiom())
+st.download_button(
+    label='Save Session', 
+    data=df, 
+    file_name='session.csv',
+    mime='text/csv', 
+    )
