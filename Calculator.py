@@ -93,7 +93,7 @@ else:
             step=1e-4,
             format="%.4f")
     else:
-        job_incentive = employee_information["JOB_INC"]
+        job_inc = employee_information["JOB_INC"]
 
     if employee_information["COLL_INC"] == 0.0000 or 0:
         # Text input box for mannually entering floats
