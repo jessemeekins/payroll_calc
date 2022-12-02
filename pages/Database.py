@@ -6,6 +6,22 @@ today = dt.datetime.today()
 
 st.set_page_config(layout='wide')
 
+
+st.write('''
+    INSTRUCTIONS - Table shows all transactions in the databse. Filters on the side bar can be used to filter out data as needed. 
+    To remove data, click on the tags you would like to no longer see in the table. By default, all unique values found in the table,
+    will populate. Defaults can by changed. Please email Lt Meekins, if you wish to have any changes made. 
+
+    DELETE TRANSACTION - 'key' required. To perminalty deleate a entry, click on the cell under the key column you with to delete.
+    Copy cell, scroll down on the side bar until the 'Remove Record' form is visable. Paste into the field labeleld 'Transaction ID (required)'
+    and click remove. Refresh page to reflect changes. 
+
+    UPDATE/EDIT TRANSACTION - Feature enhancement coming soon. 
+''')
+
+
+
+
 df = get_transactions()
 
 df = pd.DataFrame.from_records(df, columns=[
