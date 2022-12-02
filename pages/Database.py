@@ -9,12 +9,13 @@ st.set_page_config(layout='wide')
 
 st.write('''
     INSTRUCTIONS - Table shows all transactions in the databse. Filters on the side bar can be used to filter out data as needed. 
-    To remove data, click on the tags you would like to no longer see in the table. By default, all unique values found in the table,
-    will populate. Defaults can by changed. Running total is visable at the bottom of the screen, under the table. dynamically changes when filterd are adjusted. 'Download Dataframe' will download a copy 
+    To remove data, click on the tags you would like to no longer see in the table. The table dynamically changes 
+    when filters are adjusted. By default, all unique values found in the table will populate. Defaults can by changed upon request.
+    The running total in dollars is visable at the bottom of the screen under the table. 'Download Dataframe' will download a copy 
     of the currently visable table in CSV format to your computer.
 
-    DELETE TRANSACTION - 'key' required. To perminalty deleate a entry, click on the cell under the key column you with to delete.
-    Copy cell, scroll down on the side bar until the 'Remove Record' form is visable. Paste into the field labeleld 'Transaction ID (required)'
+    DELETE TRANSACTION - 'key' required. To perminalty delete an entry, click on the cell under the key column you wish to delete.
+    Copy cell, scroll down on the side bar until the 'Remove Record' form is visable. Paste 'key' into the field labeled 'Transaction ID (required)'
     and click remove. Refresh page to reflect changes. 
 
     UPDATE/EDIT TRANSACTION - Feature enhancement coming soon. 
