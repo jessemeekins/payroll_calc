@@ -12,7 +12,7 @@ today = dt.date.today()
 
 ### Defining the Databse of Ranks and Pay
 award_= ['130701', '130801']
-activity_= [ 'Part-Time','Training', 'Staffing', 'Backfill USAR']
+activity_= ['Backfill USAR', 'Part-Time','Training', 'Staffing']
 #### Streamlit App LAyout and web functionality code below ####
 cost_centers = get_cost_centers()
 
