@@ -3,6 +3,7 @@ import pandas as pd
 import datetime as dt
 from database_func import *
 
+
 emp_list = get_all_employees()
 transactions = get_transactions()
 deta_pay_scale = get_payscale()
@@ -11,7 +12,7 @@ today = dt.date.today()
 
 ### Defining the Databse of Ranks and Pay
 award_= ['130701', '130801']
-activity_= [ 'Admin PT','Training', 'Staffing', 'USAR Backfill']
+activity_= [ 'Part-Time','Training', 'Staffing', 'Backfill USAR']
 #### Streamlit App LAyout and web functionality code below ####
 cost_centers = get_cost_centers()
 
@@ -54,7 +55,7 @@ hours_works = st.number_input('Hours Worked (Decimal Value)',
     step=25e-2,
     format="%.2f")
 
-if activity == 'Admin PT':
+if activity == 'Part-Time':
     working_rank = 'Lieutenant'
     selected_pay_rate = '8 Hour Rate'
     overtime_type = 'Straight Time'
@@ -139,7 +140,7 @@ payperiod = get_pay_period(start_date)
 # "run" varoable create to trigger sessio.state.key
 run = st.button('Calculate/Add to Data Base', on_click=update_payout, args=[total_pay], key='person_expense')
 if run:
-    create_transaction(ADDED=str(today), GRANT_NUMBER=grant_number, PAY_PERIOD=payperiod, PROJECT_NUMBER=project_number, ACTIVITY=activity, EMPLOYEE_ID=employee_id, NAME=name, RANK=rank, HOURS_WORK=hours_works, DATE_WORKED=str(start_date), TOTAL_PAY=total_pay, NOTES=notes, AWARD_NUMBER=award_number)
+    create_transaction(ADDED=str(today), GRANT_NUMBER=grant_number, PAY_PERIOD=payperiod, PROJECT_NUMBER=project_number, ACTIVITY=activity, EMPLOYEE_ID=employee_id, NAME=name, RANK=working_rank, HOURS_WORK=hours_works, DATE_WORKED=str(start_date), TOTAL_PAY=total_pay, NOTES=notes, AWARD_NUMBER=award_number)
     # Passing above values to a new data frame
     new_df = pd.DataFrame({
             'Employee ID': employee_id, 
