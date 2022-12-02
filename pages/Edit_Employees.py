@@ -18,6 +18,20 @@ tab1, tab2 = st.tabs(['Add/Remove/Update', 'Audit Employees'])
 
 with tab1:
 
+    st.write('''
+        INSTRUCTIONS:
+
+        ADDING EMPLOYEE - EID, NAME and RANK required. Form will accept incomplete information. You can add whatever information you have, and 
+        come back and update information later. 
+
+        UPDATING EMPLOYEE - EID required. Add as many or few updates as you wish, and only those values will change.
+        For example if EID is provided, name is left blank, rank set to 'AEMT/Probation' by default, and only 'Collage Inc' is changed, then all other 
+        inforamtion associated with the EID will remainthe same and 'Collage Inc' will be the only value updated.
+
+        DELETIND EMPLOYEE - EID required. No other information is needed. If you accidently delete employee, simply 
+        insert EID only and whatever information you know into the form and click add. 
+    ''')
+
     with st.form('Employee Input', clear_on_submit=True):
         
         eid = st.text_input('EID', key='eid')
