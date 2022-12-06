@@ -3,8 +3,6 @@ import pandas as pd
 import datetime as dt
 from database_func import *
 
-with open(jessemeekins/secrets/test.txt) as r:
-    st.write(r)
 emp_list = get_all_employees()
 transactions = get_transactions()
 deta_pay_scale = get_payscale()
