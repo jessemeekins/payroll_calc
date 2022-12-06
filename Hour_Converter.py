@@ -4,7 +4,7 @@ import datetime as dt
 
 st.set_page_config(layout='wide')
 
-people_df  = pd.read_csv('pages/people.csv')
+people_df  = pd.read_csv('people.csv')
 
 people_df = pd.DataFrame(people_df)
 
