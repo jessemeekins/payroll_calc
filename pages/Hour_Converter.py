@@ -9,7 +9,7 @@ st.set_page_config(layout='wide')
 def get_people_csv():
     print('cache miss...')
     time.sleep(2)
-    return pd.read_csv('assets/people.csv')
+    return pd.read_csv('assets/filtered_people.csv')
      
 people_df = get_people_csv()
 
