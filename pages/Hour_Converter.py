@@ -1,4 +1,12 @@
 import streamlit as st
+import pandas as pd
+import datetime as dt
+
+st.set_page_config(layout='wide')
+
+people_df  = pd.read_csv('people.csv')
+
+people_df = pd.DataFrame(people_df)
 
 if "twentyfour" not in st.session_state:
     st.session_state.twentyfour = 0
@@ -34,23 +42,55 @@ conversion_rates = {
     25: 0.5490
 }
 
+st.header('Hours Conversion Tool (24/8)')
+st.subheader('...your welcome')
+st.write('''
+    INSTRUCTIONS: Select 'Yes' or 'No' under 'Use Employee ID' dropdown. If selecting yes, personnels EID will be used to automatically calculate hourly conversion
+    rates for personnel detailed 24 hours to 8 hours. 'Years of Service' dropdown will be diabled and be populated with years of service for the selected employee only. This calculation 
+    is based on the IAFF 1784 MOU for 2021-2023 accrual schedules for 56 hour and 40 hour employees. Drop down labeled 'Years of Service' will only be populate with the calculated years of service. 
+    Years of service is calculated on an employees adjusted hire date ('Special Date') in telestaff MINUS todays date. Example: 10/13/2008 (adjusted hire date) - 12/06/2022 (date of writing this) = 14.
 
-st.subheader('Hours Conversion Tool (24/8)')
-st.write('...your welcome')
+    If selecting 'No', employee ID will have no effect on the conversion rates. Manually change the years of service to calaculate the correct conversion rate in relation to years of service. 24 Hours and 8
+    hours work in bi-directional and will automatically be updated upon interaction. 
+    
+    *This is a tool, this is not an offical statement of benifits owed to an employee. Offical conversion and hours must be approved through payroll. 
+''')
 
 '---'
+
+col1, col2, col3, col4 = st.columns([1,2,1,1])
+
+select = col1.selectbox('Use Employee ID', ['No' ,'Yes'])
+eid = col2.selectbox('Employee ID Search', options=[person for person in people_df["Employee ID"]])
+employee = people_df[people_df['Employee ID'] == eid]
+
+special_date = employee["Special Date"].values[0]
+special_date = dt.datetime.strptime(special_date, '%m/%d/%Y').date()
+
+years = dt.datetime.today().year - special_date.year 
+
+
+col3.metric('Adjusted Hire Date', str(special_date))
+col4.metric('Current Years of Service', years)
 
 
 col1, col2, col3 = st.columns([1,2,2])
 
+
 with col1:
-   years = st.selectbox('Years of Service', options=[i for i in range(1,26)])
-   years = conversion_rates.get(years, 0.4509) 
+
+    if select == 'No':
+        years_input = st.selectbox('Years of Service', options=[i for i in range(1,26)])
+        years_input = conversion_rates.get(years_input, 0.4509) 
+    else:
+        years_input = st.selectbox('Years of Service', options=[years])
+        years_input = conversion_rates.get(years_input, 0.4509) 
+
 def twentyfour_to_eight():
-    st.session_state.eight = round(st.session_state.twentyfour * years, 0)
+    st.session_state.eight = round(st.session_state.twentyfour * years_input, 0)
 
 def eight_to_twentyfour():
-    st.session_state.twentyfour = round(st.session_state.eight / years, 0)
+    st.session_state.twentyfour = round(st.session_state.eight / years_input, 0)
 
 with col2:
     twentyfour_hours = st.number_input(
@@ -60,12 +100,14 @@ with col2:
                         step=1
                         )
 
-
 with col3:
+    
+    
     eight_hours = st.number_input(
                         "8 hours Accrual",
                         key='eight',
                         on_change=eight_to_twentyfour,
                         step=1
                         )
+
 
