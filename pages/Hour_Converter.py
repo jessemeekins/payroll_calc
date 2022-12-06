@@ -4,9 +4,12 @@ import datetime as dt
 
 st.set_page_config(layout='wide')
 
+df = pd.read_excel('/Users/jessemeekins/Documents/VS Code/Payroll Exports/D248.xlsx')
 people_df  = pd.read_csv('people.csv')
 
+
 people_df = pd.DataFrame(people_df)
+empoloyee_id_target = [people for people in df["Employee ID"]]
 
 if "twentyfour" not in st.session_state:
     st.session_state.twentyfour = 0
