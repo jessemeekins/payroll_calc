@@ -4,12 +4,9 @@ import datetime as dt
 
 st.set_page_config(layout='wide')
 
-df = pd.read_excel('/Users/jessemeekins/Documents/VS Code/Payroll Exports/D248.xlsx')
-people_df  = pd.read_csv('people.csv')
-
+people_df  = pd.read_csv('pages/people.csv')
 
 people_df = pd.DataFrame(people_df)
-empoloyee_id_target = [people for people in df["Employee ID"]]
 
 if "twentyfour" not in st.session_state:
     st.session_state.twentyfour = 0
@@ -18,6 +15,7 @@ if "eight" not in st.session_state:
     st.session_state.eight = 0
 
 conversion_rates = {
+    0: 0.3611,
     1: 0.3611,
     2: 0.3611,
     3: 0.3611,
@@ -84,10 +82,10 @@ with col1:
 
     if select == 'No':
         years_input = st.selectbox('Years of Service', options=[i for i in range(1,26)])
-        years_input = conversion_rates.get(years_input, 0.4509) 
+        years_input = conversion_rates.get(years_input, 0.5490) 
     else:
         years_input = st.selectbox('Years of Service', options=[years])
-        years_input = conversion_rates.get(years_input, 0.4509) 
+        years_input = conversion_rates.get(years_input, 0.5409) 
 
 def twentyfour_to_eight():
     st.session_state.eight = round(st.session_state.twentyfour * years_input, 0)
@@ -114,3 +112,7 @@ with col3:
                         )
 
 
+def batching(lst):
+    
+    
+    pass
